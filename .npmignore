@@ -2,3 +2,4 @@ tsconfig.json
 tsup.config.ts
 /.idea
 /src
+/.github
