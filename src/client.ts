@@ -2,6 +2,7 @@ import puppeteer, { Page, PuppeteerLaunchOptions } from "puppeteer";
 import { TweakersAPIService } from "./services";
 import { cpu, game, headphone, ram, smartphone, _switch } from "./services";
 import { Config } from "./types";
+import { motherboard } from "./services/motherboard";
 
 /**
  * ### Requirements
@@ -45,6 +46,9 @@ export class TweakersAPI<E extends Record<string, Config>> {
   }
   get headphone() {
     return new TweakersAPIService(this.page, headphone);
+  }
+  get motherboard() {
+    return new TweakersAPIService(this.page, motherboard);
   }
   get ram() {
     return new TweakersAPIService(this.page, ram);
