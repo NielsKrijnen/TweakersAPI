@@ -1,0 +1,17 @@
+{
+  "name": "tweakers-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "node-html-parser": "^6.1.13",
+    "puppeteer": "^23.5.3"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.3"
+  },
+  "private": true
+}
