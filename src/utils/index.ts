@@ -31,7 +31,7 @@ export async function listProducts(page: Page) {
   return products.filter(product => product !== null);
 }
 
-export async function getProduct<T extends Config>(page: Page, config: T): Promise<{ name?: string } & {
+export async function getProduct<T extends Config>(page: Page, config: T): Promise<{ name?: string, images: string[] } & {
   -readonly [K in keyof T["tables"] as T["tables"][K]["key"]]: ReturnType<T["tables"][K]["handle"]>
 }> {
   const getTable = async (table: ElementHandle) => {
@@ -60,10 +60,24 @@ export async function getProduct<T extends Config>(page: Page, config: T): Promi
   await page.waitForNavigation();  
   const nameEl = await page.$("h1");
   let name = await nameEl?.evaluate(el => el.innerHTML);
-  name = innerHTML(name?.replaceAll('\n ', '').trim())
-
-  const tables = await page.$$("table");
+  name = innerHTML(name?.replaceAll('\n ', '').trim());
+  
+  const [imageEls, tables] = await Promise.all([
+    await page.$$("img"),
+    await page.$$("table")
+  ])
   const result: Record<string, any> = { name }
+  const images: string[] = []
+  await Promise.all(
+    imageEls.map(async el => {
+      const result = await el.evaluate((img, name) => {
+        if (!name) return;
+        if (img.alt.toUpperCase() === name.toUpperCase()) return img.src
+      }, name)
+      if (result) images.push(result)
+    })
+  )
+  result["images"] = images;
 
   await Promise.all(
     tables.map(async tableEl => {
