@@ -1,4 +1,4 @@
-import type { Table } from "$lib/types/scraper";
+import type { Table } from "../../types";
 
 export function connection(value: Table[string]) {
   return value?.replace('Draadloos', 'Wireless').replace('Draad', 'Wired').replace('radiogestuurd', 'radio controlled')

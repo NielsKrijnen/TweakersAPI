@@ -4,14 +4,16 @@
   "repository": "https://github.com/NielsKrijnen/TweakersAPI.git",
   "description": "",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc"
+    "build": "tsup"
   },
   "dependencies": {
     "node-html-parser": "^6.1.13",
     "puppeteer": "^23.5.3"
   },
   "devDependencies": {
+    "tsup": "^8.3.0",
     "typescript": "^5.5.3"
   },
   "private": true
