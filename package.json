@@ -1,6 +1,7 @@
 {
   "name": "tweakers-api",
-  "version": "1.0.0",
+  "version": "0.0.1",
+  "repository": "https://github.com/NielsKrijnen/TweakersAPI.git",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
