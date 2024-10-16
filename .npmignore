@@ -3,3 +3,4 @@ tsup.config.ts
 /.idea
 /src
 /.github
+SECURITY.md
