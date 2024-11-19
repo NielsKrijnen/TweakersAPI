@@ -1,3 +1,13 @@
+export function translate(values: string[] | undefined, config: Record<string, string>) {
+  if (!values) return undefined;
+  const translated: string[] = [];
+  for (const value of values) {
+    if (config[value]) translated.push(config[value]);
+    else translated.push(value);
+  }
+  return translated
+}
+
 export function date(value: string | undefined) {
   if (!value) return undefined;
   let [day, month, year] = value.split(' ');
@@ -15,7 +25,7 @@ export function date(value: string | undefined) {
 }
 
 export function color(values: string[] | undefined) {
-  if (!values) return undefined;
+  if (!values) return undefined
   const colors: string[] = [];
   for (const color of values) {
     switch (color) {
@@ -47,7 +57,7 @@ export function color(values: string[] | undefined) {
       default: colors.push(color);
     }
   }
-  return colors;
+  return colors
 }
 
 export function warranty(value: string | undefined) {

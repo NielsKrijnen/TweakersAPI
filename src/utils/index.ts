@@ -52,7 +52,7 @@ export async function getProduct<T extends Config>(page: Page, config: T): Promi
 
     return result;
   }
-
+  
   const tab = await page.$("text/Kenmerken");
   if (!tab) throw Error("Something went wrong");
 

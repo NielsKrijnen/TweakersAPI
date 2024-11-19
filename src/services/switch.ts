@@ -4,7 +4,7 @@ import { color, warranty } from "../utils/translate";
 import { bool, float, int, multi } from "../utils/parse";
 import { powerSupply } from "../utils/translate/switch";
 
-type Ethernet = "Ethernet 1Gbps" |
+export type Ethernet = "Ethernet 1Gbps" |
   "Ethernet 2.5Gbps" |
   "Ethernet 5Gbps" |
   "Ethernet 10G/1G" |
@@ -13,7 +13,7 @@ type Ethernet = "Ethernet 1Gbps" |
   "Ethernet 10G/5G/2.5G/1G/100M" |
   "Ethernet 100Mbps"
 
-type SFP = "Combo SFP" |
+export type SFP = "Combo SFP" |
   "Combo SFP+" |
   "QSFP" |
   "QSFP+" |

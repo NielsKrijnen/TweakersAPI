@@ -1,4 +1,4 @@
-import puppeteer, { Page, PuppeteerLaunchOptions } from "puppeteer";
+import puppeteer, { Browser, Page, PuppeteerLaunchOptions } from "puppeteer";
 import { TweakersAPIService } from "./services";
 import { cpu, game, headphone, ram, smartphone, _switch } from "./services";
 import { Config } from "./types";
@@ -14,6 +14,7 @@ import { motherboard } from "./services/motherboard";
  **/
 export class TweakersAPI<E extends Record<string, Config>> {
   private readonly page: Promise<Page>
+  private browser: Browser | undefined
   
   constructor(private readonly config?: {
     puppeteer?: PuppeteerLaunchOptions,
@@ -24,6 +25,7 @@ export class TweakersAPI<E extends Record<string, Config>> {
   
   private async load(options?: PuppeteerLaunchOptions) {
     const browser = await puppeteer.launch(options);
+    this.browser = browser
     return browser.newPage();
   }
   
@@ -58,5 +60,11 @@ export class TweakersAPI<E extends Record<string, Config>> {
   }
   get switch() {
     return new TweakersAPIService(this.page, _switch);
+  }
+
+  async close() {
+    const page = await this.page
+    await page.close()
+    if (this.browser) await this.browser.close()
   }
 }
