@@ -17,6 +17,32 @@ type RAMType = "DDR2" |
   "DDR5 (SODIMM)" |
   "FB-DIMM" |
   "SRAM"
+;
+
+type RAMModules = "CUDIMM" |
+  "ECC (in non-ECC mode)" |
+  "Error Correcting Code" |
+  "Registered"
+;
+
+type RAID = "0" |
+  "0+1" |
+  "0+3" |
+  "1" |
+  "1E" |
+  "3" |
+  "4" |
+  "5" |
+  "5+0" |
+  "5+1" |
+  "6" |
+  "10" |
+  "30" |
+  "50" |
+  "60" |
+  "100" |
+  "JBOD"
+;
 
 export const motherboard = {
   slug: "moederborden",
@@ -54,7 +80,7 @@ export const motherboard = {
         return {
           type: multi<RAMType>(table["Geheugentype (moederbord)"]),
           capacity: int(table["Maximum grootte werkgeheugen"]),
-          modules: array(table["Compatible modules"]),
+          modules: array<RAMModules>(table["Compatible modules"]),
           overclocking: array<"AMD EXPO" | "Intel XMP">(table["Overklokprofielen"])
         }
       }
@@ -65,7 +91,7 @@ export const motherboard = {
         return {
           buses: multi(table["Hardeschijf bus (intern)"]),
           cooledM2: int(table["Aantal gekoelde M.2 slots"]),
-          raid: array(table["Raid-modi"])
+          raid: array<RAID>(table["Raid-modi"])
         }
       }
     },
@@ -74,7 +100,7 @@ export const motherboard = {
       handle: table => {
         return {
           slots: multi(table["Uitbreidingsslots"]),
-          linkInterfaces: array(table["Link Interface"]) 
+          linkInterfaces: array<"AMD Crossfire" | "Nvidia NVLink (SLI)">(table["Link Interface"]) 
         }
       }
     },

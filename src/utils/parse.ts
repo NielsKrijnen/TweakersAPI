@@ -51,5 +51,5 @@ export function multi<T extends string>(value: Table[string]): { [K in T]: numbe
 }
 
 export function array<T = string>(value: Table[string]) {
-  return value?.split(', ') ?? [] as T[]
+  return (value?.split(', ') ?? []) as T[]
 }
