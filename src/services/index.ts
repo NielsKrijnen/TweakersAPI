@@ -26,6 +26,7 @@ export class TweakersAPIService<T extends Config> {
     if (!redirect.ok) throw new Error(redirect.statusText)
     const url = new URL(redirect.url + "/specificaties")
     const response = await this.fetch(url)
+    if (!response.ok) throw new Error(response.statusText)
 
     return getProduct<T>(await response.text(), this.config);
   }
