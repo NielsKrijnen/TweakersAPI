@@ -1,6 +1,5 @@
 import { Config } from "../types";
 import { getProduct, listProducts } from "../utils";
-import { Page } from "puppeteer";
 
 export { cpu } from "./cpu";
 export { game } from "./game";
@@ -10,21 +9,24 @@ export { smartphone } from "./smartphone";
 export { _switch } from "./switch";
 
 export class TweakersAPIService<T extends Config> {
-  constructor(private page: Promise<Page>, private readonly config: T) {}
+  constructor(private fetch: typeof globalThis.fetch, private readonly config: T) {}
   
-  async list(params?: {
-    page?: number
-  }) {
-    const page = await this.page;
+  async list(params?: { page?: number }) {
     const url = new URL(`https://tweakers.net/${this.config.slug}/vergelijken`);
     if (params?.page) url.searchParams.set("page", params.page.toString());
-    await page.goto(url.toString());
-    return listProducts(page);
+
+    const response = await this.fetch(url)
+    if (!response.ok) throw new Error(response.statusText)
+
+    return listProducts(await response.text());
   }
   
   async get(id: number) {
-    const page = await this.page;
-    await page.goto(`https://tweakers.net/pricewatch/${id}`);
-    return getProduct<T>(page, this.config);
+    const redirect = await this.fetch(`https://tweakers.net/pricewatch/${id}`)
+    if (!redirect.ok) throw new Error(redirect.statusText)
+    const url = new URL(redirect.url + "/specificaties")
+    const response = await this.fetch(url)
+
+    return getProduct<T>(await response.text(), this.config);
   }
 }
