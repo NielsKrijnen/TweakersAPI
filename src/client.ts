@@ -3,12 +3,7 @@ import { cpu, game, headphone, ram, smartphone, _switch } from "./services";
 import { Config } from "./types";
 
 /**
- * ### Requirements
- * - Node is required (can't run on browser)
- * ### Tips
- * - Don't send too much requests, you'll be IP-blocked when doing so
- * - Data retrieval takes long, so it's best to store it in your own database
- * @param config Configure the API. Currently only the puppeteer launch options are available
+ * @param config Configure the API.
  **/
 export class TweakersAPI<E extends Record<string, Config>> {
   private readonly fetch: typeof fetch
