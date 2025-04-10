@@ -1,6 +1,14 @@
 import { TweakersAPIService } from "./services";
 import { cpu, game, headphone, ram, smartphone, _switch } from "./services";
 import { Config } from "./types";
+import { I18n } from "i18n"
+
+const locales = ["nl", "en"] as const satisfies string[]
+
+const i18n = new I18n({
+  locales,
+  directory: "./locales"
+})
 
 /**
  * @param config Configure the API.
@@ -11,7 +19,11 @@ export class TweakersAPI<E extends Record<string, Config>> {
   constructor(private readonly config?: {
     extend?: E
     fetch?: typeof fetch
+    /** Specifies whether to translate the response. Defaults to 'nl' (no translation) */
+    locale?: typeof locales[number]
   }) {
+    i18n.setLocale(config?.locale ?? "nl")
+
     this.fetch = config?.fetch ?? fetch
   }
   
