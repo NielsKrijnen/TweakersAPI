@@ -33,12 +33,10 @@ export class TweakersAPIService<T extends Config> {
   }
 
   async price(id: number) {
-    const redirect = await this.fetch(`https://tweakers.net/pricewatch/${id}`)
-    if (!redirect.ok) throw new Error(redirect.statusText)
-    const response = await this.fetch(redirect.url)
-    if (!response.ok) throw new Error(response.statusText)
+    const res = await this.fetch(`https://tweakers.net/pricewatch/${id}`, { redirect: "follow" })
+    if (!res.ok) throw new Error(res.statusText)
 
-    const text = await response.text()
+    const text = await res.text()
     const html = parse(text)
 
     const table = html.querySelector(".shop-listing")
@@ -52,19 +50,23 @@ export class TweakersAPIService<T extends Config> {
       const tagline = row.querySelector(".tagline")
       const a = row.querySelector("a")
       const priceColumn = row.querySelector(".shop-price")
+      const priceBaseColumn = row.querySelector(".shop-bare-price")
       const price = priceColumn?.querySelector("a")
-      if (!price || !a) return
+      const priceBase = priceBaseColumn?.querySelector("a")
+      if (!price || !a || !priceBase) return
       const parsedPrice = price.innerText.replace(',-', '').replace(',', '.').slice(3)
+      const parsedBasePrice = priceBase.innerText.replace(',-', '').replace(',', '.').slice(3)
       const href = a.getAttribute("href")
 
       return {
         link: href ? new URL(href) : undefined,
         name: a.innerText.trim(),
         total: Number(parsedPrice),
+        basePrice: Number(parsedBasePrice),
         tagline: tagline?.getAttribute("title")
       }
     })
 
-    return prices.filter(price => price !== undefined)
+    return prices.filter(price => !!price)
   }
 }

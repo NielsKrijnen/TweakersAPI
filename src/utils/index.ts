@@ -23,7 +23,7 @@ export function listProducts(text: string) {
     return { name, id, img }
   })
 
-  return products.filter(product => product !== null);
+  return products.filter(product => !!product)
 }
 
 export function getProduct<T extends Config>(text: string, config: T): Promise<{ name?: string } & {
